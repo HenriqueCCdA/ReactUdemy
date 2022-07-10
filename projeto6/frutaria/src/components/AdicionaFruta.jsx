@@ -32,7 +32,7 @@ const AdicionaFruta = () => {
       <input
         type="number"
         name={quantidade}
-        placeholder="Quantidad"
+        placeholder="Quantidade"
         required onChange={event => setQuantidade(event.target.value)}
       />
 

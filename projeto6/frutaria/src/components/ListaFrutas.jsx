@@ -7,7 +7,6 @@ import Fruta from './Fruta';
 const ListaFrutas = () => {
 
   const frutas = useSelector(state => state.frutaReducers.frutas);
-  console.log(frutas);
   return (
     <>
       <h1>Lista de Frutas</h1>
