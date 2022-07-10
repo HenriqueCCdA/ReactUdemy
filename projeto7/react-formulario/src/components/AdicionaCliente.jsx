@@ -1,5 +1,6 @@
 import React from 'react';
 import { Formik, useField }  from 'formik';
+import * as yup from 'yup';
 
 const Campo = ({label, ...props}) => {
   const [field, meta] = useField(props);
@@ -20,27 +21,27 @@ const Campo = ({label, ...props}) => {
 
 
 const AdicionaCliente = () => {
+
+  const esquema = yup.object({
+    nome: yup.string()
+      .required('O nome é obrigatorio')
+      .min(10, 'O nome deve ter no mínimo 10 caracteres')
+      .max(30, 'O nome deve ter no máximo 30 caracteres'),
+    email: yup.string()
+      .required('O email é obrigatorio')
+      .email('O email é inválido'),
+    nascimento: yup.date()
+      .required('A data de nascimento é obrigatorio')
+      .max(new Date(), 'Voce não pode nascido no futuro...')
+  });
+
   return (
     <>
       <h1>Cadastro de Clientes</h1>
 
       <Formik
         initialValues={{ nome: 'João', email: '', nascimento: ''}}
-        validate={values => {
-          const errors = {};
-          if (!values.nome){
-            errors.nome = 'O nome é obrigatorio';
-          }
-          if (!values.email){
-            errors.email = 'O email é obrigatorio';
-          } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
-            errors.email = 'O email é invalido'
-          }
-          if (!values.nascimento){
-            errors.nascimento = 'A data de nascimento é obrigatorio';
-          }
-          return errors;
-        }}
+        validationSchema={esquema}
         onSubmit={values => {
           alert(JSON.stringify(values));
         }}
